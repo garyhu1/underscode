@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>underscore插件的使用(Collections)</title>
+		<script type="text/javascript" src="../plugin/underscore.js"></script>
+	</head>
+
+	<body>
+
+	</body>
+	<script type="text/javascript">
+		var arr = _.map([1, 2, 3, 4, 5], function(x) {
+			return x * x;
+		});
+		//		alert(arr);
+		var obj = {
+			name: 'garyhu',
+			gender: 'Male',
+			age: '20',
+			school: '怀远一中'
+		}
+		var arr1 = _.map(obj, function(value, key) {
+			return key + ":" + value;
+		});
+		//      alert(JSON.stringify(arr1));
+		var arr2 = _.mapObject(obj, function(value, key) {
+			return value;
+		});
+		//alert(JSON.stringify(arr2));
+
+		//every和some的使用
+		var flag1 = _.every([-1, 1, 2, 3, 4, 5], function(x) {
+			return x > 0
+		});
+		//every都满足条件时返回true ,有一个不符合就返回false
+		//      alert(flag1);
+		var flag2 = _.some([-1, 1, 2, 3, 5], function(x) {
+			return x < 0;
+		});
+		//some至少有一个满足条件就会返回true，
+		//      alert(flag2);
+		//判断key和value全部小写
+		var r1 = _.every(obj, function(value, key) {
+			var rel = /[A-Z]+/;
+			return !rel.test(key+value);
+		});
+		var r2 = !_.some(obj, function(value, key) {
+			var rel = /[A-Z]+/; 
+			return rel.test(key+value);
+		});
+//		alert(r1+'\n'+r2);
+        
+        //max / min这两个函数直接返回集合中最大和最小的数：
+        var array = [5,10,0,-1,100];
+        var x1 = _.min(array);
+        var x2 = _.max(array);
+//      alert("max : "+x2+'\n'+"min : "+x1);
+        // 空集合会返回-Infinity和Infinity，所以要先判断集合不为空：
+        var x3 = _.max([]);
+        var x4 = _.min([]);
+//      alert("max : "+x3+'\n'+"min : "+x4);
+        var arrr;
+        if(arrr){
+        	var x5 = _.min(arrr);
+        	alert('min : '+x5);
+        }else{
+//      	alert('集合为空');
+        }
+        var a = [];
+        if(a.length!==0){
+        	var x5 = _.min(a);
+        	alert('min : '+x5);
+        }else{
+//      	alert('集合为空');
+        }
+        //如果集合是Object，max()和min()只作用于value，忽略掉key：
+        var x6 = _.max({a:9,b:100,c:-9});
+//      alert(x6);
+        
+        
+        //groupBy()把集合的元素按照key归类，key由传入的函数返回：
+        var rr = [69,53,89,72,97,71,84,94,82,48,66,61];
+        var groups = _.groupBy(rr,function(x){
+        	if(x>=90){
+        		return "A";
+        	}else if(x>=80){
+        		return "B";
+        	}else if(x>=70){
+        		return "C";
+        	}else if(x>=60){
+        		return "D";
+        	}else{
+        		return "E";
+        	}
+        });
+//      alert(JSON.stringify(groups));
+        
+        //shuffle()用洗牌算法随机打乱一个集合：
+        //每次结果都不一样
+        var a_1 = [1,2,3,4,5,6];
+        var r_1 = _.shuffle(a_1);
+//      alert(r_1);
+        
+        //sample()则是随机选择一个或多个元素：
+        //随机选择一个元素
+        var y1 = _.sample(a_1);
+//      alert(y1);
+        //随机选择3个元素
+        var y2 = _.sample(a_1,3);
+//      alert(y2);
+	</script>
+
+</html>

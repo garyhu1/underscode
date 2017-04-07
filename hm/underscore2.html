@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>underscore的使用（Functions）</title>
+		<script type="text/javascript" src="../plugin/underscore.js"></script>
+		<script type="text/javascript" src="../js/jquery.min.js"></script>
+	</head>
+	<body>
+		<button id="btn">注册</button>
+	</body>
+	<script type="text/javascript">
+		//bind()可以帮我们把console对象直接绑定在log()的this指针上，以后调用log()就可以直接正常调用了
+		var log = _.bind(console.log,console);
+//		log('garyhu');
+        //partial()就是为一个函数创建偏函数
+        //固定住了原函数的第一个参数（始终为2）：
+        var pow2N = _.partial(Math.pow,2);
+        var x1 = pow2N(3);
+        var x2 = pow2N(6);
+//      alert("2的3次方 ： "+x1+'\n'+"2的6次方 ："+x2);
+        //可以用_作占位符，固定住第二个参数：
+        var cube = _.partial(Math.pow, _, 3);
+        var y1 = cube(3);
+//      alert(y1);
+        //如果一个函数调用开销很大，我们就可能希望能把结果缓存下来，以便后续调用时直接获得结果。举个例子，计算阶乘就比较耗时：
+        //用memoize()就可以自动缓存函数计算的结果：
+        var f = _.memoize(function(n){
+//      	console.log('start calculate ' + n + '!...');
+        	var 
+        	   s=1;
+        	   i=n;
+        	while(i>1){
+        		s = s*i;
+        		i--;
+        	}
+//      	console.log(n + '! = ' + s);
+        	return s;
+        });
+        //对于相同的调用，比如连续两次调用factorial(10)，第二次调用并没有计算，而是直接返回上次计算后缓存的结果。
+        //不过，当你计算factorial(9)的时候，仍然会重新计算。
+        f(10);
+        f(10);
+        //可以对f()进行改进，让其递归调用：
+        var f1 = _.memoize(function(n){
+//      	console.log('start calculate ' + n + '!...');
+        	if(n<2){
+        		return 1;
+        	}
+        	return n*f1(n-1);
+        });
+        //此时只打印f1(10)，f1(9)不打印日志
+        f1(10);
+        f1(9);
+        
+        //once()保证某个函数执行且仅执行一次
+        var register = _.once(function(){
+        	alert('Register OK');
+        });
+        //无论点击多少次就只执行一次
+        $('#btn').click(function(){
+        	register();
+        });
+        
+        //delay()可以让一个函数延迟执行，效果和setTimeout()是一样的，但是代码明显简单了：
+        //如果要延迟调用的函数有参数，把参数也传进去：
+        _.delay(log,2000,'Hello'+'World');
+	</script>
+</html>
